@@ -1,0 +1,12 @@
+{% extends "main_app/base.html" %} {% block content %}
+<h1>{% if form.instance.id %} Edit Post {% else %} Add Post {% endif %}</h1>
+<div class="form-group" style="padding: 50px 50px">
+  <form method="POST">
+    {% csrf_token %} {{ form.as_p }}
+    <div class="mt-4">
+      <button class="btn btn-primary" type="submit">Confirm</button>
+      <a href="{% url 'postlistview' %}" class="btn btn-secondary"> Cancel </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

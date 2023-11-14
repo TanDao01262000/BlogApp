@@ -1,0 +1,27 @@
+{% extends "main_app/base.html" %} {% load static %} {% block content %}
+
+<div class="container container-custom">
+  <div class="row">
+    <div class="col-md-6">
+      <h1 style="color: rgb(254, 254, 254)">Welcome to Your Blog</h1>
+      <p style="color: rgb(251, 251, 251)">
+        Discover, Create, Share: Your Journey in Words.
+      </p>
+      <a class="btn btn-primary" href="{% url 'postlistview' %}"
+        >Get Started!</a
+      >
+    </div>
+  </div>
+</div>
+
+<style>
+  body {
+    background-image: url("{% static 'images/background.jpg' %}");
+    background-size: cover;
+  }
+  .container-custom {
+    margin-top: 140px;
+    margin-left: 100px;
+  }
+</style>
+{% endblock %}

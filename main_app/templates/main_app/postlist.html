@@ -1,0 +1,50 @@
+{% extends "main_app/base.html" %} {% block title %} Blog Posts {% endblock %}
+{% load static %} {% block content %}
+<style>
+  .container-custom {
+    background-image: url("{% static 'images/homeIMG.jpg' %}");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+<div class="container-custom">
+  <div class="card-body text-center">
+    <h5 class="card-title">Create a New Post</h5>
+    <p class="card-text">What's on your mind?</p>
+    <a href="{% url 'addpostview' %}" class="btn btn-primary"
+      >Make Your Own Post</a
+    >
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <!-- <h1 class="mt-4">Blog Posts</h1> -->
+
+      <ul class="list-group">
+        {% for post in posts %}
+        <li class="list-group-item">
+          <h4 class="mb-1">
+            <h2 class="mt-4">{{ post.title }}</h2>
+          </h4>
+          <small class="text-muted">{{ post.author }}</small>
+          <p>{{ post.content }}</p>
+          <a
+            href="{% if user.is_authenticated %} {% url 'postdetailview' post.pk %} {% else %} {% url 'loginview' %} {% endif %}"
+            >Read more</a
+          >
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
