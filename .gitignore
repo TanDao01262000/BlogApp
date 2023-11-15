@@ -1,0 +1,34 @@
+# Compiled files
+*.o
+*.so
+*.dll
+*.class
+*.exe
+
+# Logs
+*.log
+
+# Dependency folders
+node_modules/
+vendor/
+
+# IDE and editor folders/files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.bak
+
+# Config files (dotenv, etc)
+.env
+
+# Other
+*.pyc
+__pycache__/

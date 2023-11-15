@@ -7,6 +7,7 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from .models import Post, Like, Comment
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 # Create your views here.
 
 def loginview(request):
@@ -77,8 +78,17 @@ class AddPostView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-def post_search(request):
-    pass
+# Search
+# def search(request):
+#     query = request.GET.get('q')
+#     if query:
+#         results = Question.objects.filter(
+#             Q(title__icontains=query) | Q(content__icontains=query))
+
+#         if results:
+#             return render(request, 'main_app/search.html', {'results': results})
+
+#     return render(request, 'main_app/not_found_page.html')
 
 
 # Comment CRUD
