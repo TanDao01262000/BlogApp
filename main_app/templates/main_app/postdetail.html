@@ -1,13 +1,24 @@
-
 {% extends "main_app/base.html" %} {% block content %}
-<a
-  href="{% url 'postlistview' %}"
-  class="btn btn-primary"
-  style="margin-left: 100px; margin-top: 50px"
->
-  Back
-</a>
+
 <div class="container">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="mt-4">
+      <a href="{% url 'postlistview' %}" class="btn btn-primary"> Back </a>
+    </div>
+    <div>
+      {% if user.is_authenticated and user == post.author %}
+      <div class="mt-4">
+        <a href="{% url 'updatePostView' post.pk %}" class="btn btn-secondary"
+          >Edit</a
+        >
+        <a href="{% url 'deletePostView' post.pk %}" class="btn btn-danger"
+          >Delete</a
+        >
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <h2 class="mt-4">{{ post.title }}</h2>
@@ -21,29 +32,51 @@
           Last Modified: {{ post.modified_date|date:"F d, Y H:i" }}
         </p>
       </div>
-      {% if user.is_authenticated and user == post.author %}
-      <div class="mt-4">
-        <a href="{% url 'updatePostView' post.pk %}" class="btn btn-secondary"
-          >Edit</a
-        >
-        <a href="{% url 'deletePostView' post.pk %}" class="btn btn-danger"
-          >Delete</a
-        >
-      </div>
-      {% endif %}
     </div>
   </div>
-    {% for message in messages %}
-        {{ message }}
-    {% endfor %}
+</div>
 
-    <!-- Like, Comment Form -->
-    <form method="post" action="{% url 'add_comment_like' post.id %}">
-        {% csrf_token %}
-        <button type="submit" name="like_button" value="like">Like</button>
-        <textarea name="comment_text"></textarea>
-        <button type="submit" name="comment_button" value="comment">Submit Comment</button>
-    </form>
+<div class="container mt-4">
+  <!-- Comment Form -->
+  <form
+    method="post"
+    action="{% url 'add_comment_like' post.pk %}"
+    class="mb-4"
+  >
+    {% csrf_token %}
+    <!-- {{ comment_form.as_p }} -->
+    <p class="mt-3">
+      <button
+        type="submit"
+        name="like_button"
+        value="like"
+        class="btn btn-primary mr-2"
+      >
+        Like
+      </button>
+      - {{ post.like_count }} people liked this
+    </p>
+    <textarea
+      name="comment_text"
+      class="form-control mb-2"
+      placeholder="Add your comment"
+    ></textarea>
+    <button
+      type="submit"
+      name="comment_button"
+      value="comment"
+      class="btn btn-success"
+    >
+      Submit Comment
+    </button>
+  </form>
+
+  {% for comment in post.comments.all %}
+  <div class="mt-3">
+    <p class="alert alert-info" role="alert">
+      <strong>{{ comment.user }}:</strong> {{ comment.content }}
+    </p>
+  </div>
+  {% endfor %}
 </div>
 {% endblock %}
-
