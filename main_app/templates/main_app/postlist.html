@@ -17,7 +17,9 @@
   <div class="card-body text-center">
     <h5 class="card-title">Create a New Post</h5>
     <p class="card-text">What's on your mind?</p>
-    <a href="{% url 'addpostview' %}" class="btn btn-primary"
+    <a
+      href="{% if user.is_authenticated %} {% url 'addpostview' %} {% else %} {% url 'loginview' %} {% endif %}"
+      class="btn btn-primary"
       >Make Your Own Post</a
     >
   </div>
