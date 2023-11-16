@@ -43,6 +43,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.first_name
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    bio = models.CharField(default='This user is too lazy to write anything!', max_length=1000, blank=True, null=True)
+    linkedin_link = models.URLField(max_length=2000, blank=True, null=True)
+
+    def __str__(self):
+        return f'Profile of {self.user.get_full_name()}'
+
 class Post(models.Model):
     title = models.CharField(max_length=500, null=False, blank=False)
     content = models.CharField(max_length=50000, null=False, blank=False)

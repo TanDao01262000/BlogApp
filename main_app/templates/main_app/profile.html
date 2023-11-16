@@ -1,0 +1,10 @@
+
+{% extends "main_app/base.html" %} {% block title %} Blog Posts {% endblock %}
+{% load static %} {% block content %}
+ <h1>{{ custom_user.id }}</h1>
+ <h1>{{ like_count }}</h1>
+ <h1>{{ comment_count }}</h1>
+ <h1>{{ post_count }}</h1>
+ {% endblock %}
+
+

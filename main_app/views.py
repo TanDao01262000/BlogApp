@@ -2,14 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UserRegisterForm, PostForm
+from .forms import UserRegisterForm, PostForm, ProfileUpdateForm
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
-from .models import Post, Like, Comment
+from .models import Post, Like, Comment, CustomUser
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 # Create your views here.
 
+# Auth Views
 def loginview(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -48,8 +49,56 @@ def signupview(request):
     context = {'form': form}
     return render(request, 'main_app/signup.html', context)
 
+# End Auth View
+
+# User Profile CRUD View
+@login_required
+def profile_view(request, pk):
+    custom_user = CustomUser.objects.get(id=pk)
+    post_count = Post.objects.filter(author=custom_user).count()
+    like_count = Like.objects.filter(user=custom_user).count()
+    comment_count = Comment.objects.filter(user=custom_user).count()
+    context ={
+        'custom_user':custom_user,
+        'post_count':post_count,
+        'like_count':like_count,
+        'comment_count':comment_count,
+    }
+    return render(request, 'main_app/profile.html', context=context)
+
+
+@login_required
+def update_profile(request, pk):
+    if pk == request.user.id:
+
+        cur_user_profile = {
+            'bio': request.user.profile.bio,
+            'linkedin_link': request.user.profile.linkedin_link,
+        }
+
+        if request.method == "POST":
+            profile_update_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+            if profile_update_form.is_valid():
+                profile = profile_update_form.save(commit=False)
+                profile.user = request.user
+                profile.save()
+                messages.success(request, f'Profile updated successfully')
+                return redirect('profileview', pk=request.user.id)
+        else:
+            profile_update_form = ProfileUpdateForm(initial=cur_user_profile)
+        context = {
+            'profile_update_form': profile_update_form,
+        }
+        return render(request, 'main_app/update.html', context=context)
+    else:
+        return render(request, 'main_app/error.html')
+    
+# End Profile Views 
+
+
 def homeview(request):
     return render(request, 'main_app/home.html')
+
 
 # CRUD operations for Post
 class PostListView(ListView):
@@ -76,7 +125,35 @@ class AddPostView(LoginRequiredMixin, CreateView):
         print(form.cleaned_data)
         form.instance.author = self.request.user
         return super().form_valid(form)
+    
+class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'main_app/addpost.html'
+    context_object_name = 'post'
+    # fields = ['title', 'content']
 
+    def form_valid(self, form):
+        print(form.cleaned_data['title'])
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    
+    def test_func(self):
+        post = self.get_object()
+        return True if self.request.user == post.author else False
+    
+class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'main_app/deletepost.html'
+    context_object_name = 'post'
+
+    success_url = "/blog"
+    
+    def test_func(self):
+        post = self.get_object()
+        return True if self.request.user == post.author else False
+
+# End Post CRUD
 
 # Search
 def search(request):
@@ -90,8 +167,7 @@ def search(request):
 
     return render(request, 'main_app/not_found_page.html')
 
-
-# Comment CRUD
+# Add Comment View
 @login_required
 def add_comment_like(request, pk):
     if request.method == 'POST' :
@@ -116,30 +192,7 @@ def add_comment_like(request, pk):
             
         
 
-class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Post
-    form_class = PostForm
-    template_name = 'main_app/addpost.html'
-    context_object_name = 'post'
-    # fields = ['title', 'content']
-
-    def form_valid(self, form):
-        print(form.cleaned_data['title'])
-        form.instance.author = self.request.user
-        return super().form_valid(form)
-    
-    def test_func(self):
-        post = self.get_object()
-        return True if self.request.user == post.author else False
 
 
-class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Post
-    template_name = 'main_app/deletepost.html'
-    context_object_name = 'post'
 
-    success_url = "/blog"
-    
-    def test_func(self):
-        post = self.get_object()
-        return True if self.request.user == post.author else False
+
