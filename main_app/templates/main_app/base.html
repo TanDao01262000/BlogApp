@@ -73,6 +73,13 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'logoutview' %}">Logout</a>
             </li>
+            <li>
+              <form class="d-flex" method="get" action="{% url 'search' %}">
+                <input class="form-control me-2" id="search-input" type="text" name="q" placeholder="Search...">
+                <button class="btn btn-outline-success" type="submit" style="font-family: 'Crimson Text';">Search</button>
+              </form>
+            </li>
+          
             {% else %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'loginview' %}">Login</a>
