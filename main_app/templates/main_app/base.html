@@ -44,6 +44,19 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'logoutview' %}">Logout</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'profileview' request.user.id %}"
+                >Profile</a
+              >
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'loginview' %}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'signupview' %}">Sign up</a>
+            </li>
+            {% endif %}
             <li>
               <form
                 class="form-inline my-2 my-lg-0"
@@ -66,15 +79,6 @@
                 </button>
               </form>
             </li>
-
-            {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'loginview' %}">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'signupview' %}">Sign up</a>
-            </li>
-            {% endif %}
           </ul>
         </div>
       </nav>
