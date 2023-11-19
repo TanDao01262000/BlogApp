@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.db import models
-from .models import Post, CustomUser
+from .models import Post, CustomUser, Profile
 from django import forms
 
 
@@ -21,3 +21,13 @@ class PostForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),
         }
+
+
+# class for update profile
+class ProfileUpdateForm(forms.ModelForm):
+    bio = forms.CharField(required=False)
+    linkedin_link = forms.URLField(required=False)
+    
+    class Meta:
+        model = Profile
+        fields = ['bio', 'linkedin_link']
