@@ -79,16 +79,16 @@ class AddPostView(LoginRequiredMixin, CreateView):
 
 
 # Search
-# def search(request):
-#     query = request.GET.get('q')
-#     if query:
-#         results = Question.objects.filter(
-#             Q(title__icontains=query) | Q(content__icontains=query))
+def search(request):
+    query = request.GET.get('q')
+    if query:
+        results = Post.objects.filter(
+            Q(title__icontains=query) | Q(content__icontains=query))
 
-#         if results:
-#             return render(request, 'main_app/search.html', {'results': results})
+        if results:
+            return render(request, 'main_app/search.html', {'results': results})
 
-#     return render(request, 'main_app/not_found_page.html')
+    return render(request, 'main_app/not_found_page.html')
 
 
 # Comment CRUD
