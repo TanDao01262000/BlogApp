@@ -1,4 +1,5 @@
-{% extends "main_app/base.html" %} {% block content %}
+{% extends "main_app/base.html" %} {% block title %} {% if form.instance.id %}
+Edit Post {% else %} Add Post {% endif %} {% endblock %} {%block content%}
 <h1>{% if form.instance.id %} Edit Post {% else %} Add Post {% endif %}</h1>
 <div class="form-group" style="padding: 50px 50px">
   <form method="POST">
