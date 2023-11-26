@@ -91,27 +91,7 @@ This section should provide detailed instructions on how to get started with the
     python manage.py runserver
   ```
 
-
-### Usage
-
-This section should provide examples or instructions on how to use the project. Provide any information that the user may need to know before getting started, such as expected inputs and outputs, important features or limitations, and so on.
-
-### Roadmap
-
-Here you can outline any future plans or improvements for the project. This can include bug fixes, new features, or any other changes that are planned.
-
-### Contributing
-
-Here you should provide instructions on how other developers can contribute to the project. This should include guidelines for submitting pull requests, coding conventions, and any other relevant information.
-
 ### License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-### Contact
-
-Here you can provide information on how to contact you or the project team. This can include email addresses, social media handles, or a link to a website.
-
-### Acknowledgements
-
-Here you can give credit to any individuals or organizations that have contributed to the project or provided support.
