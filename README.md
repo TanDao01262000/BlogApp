@@ -90,6 +90,8 @@ This section should provide detailed instructions on how to get started with the
   ```
     python manage.py runserver
   ```
+### Docker Image
+Run this command to pull from DockerHub: docker pull tankhanhdao/cs157a:latest
 
 ### License
 
