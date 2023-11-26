@@ -91,6 +91,10 @@ This section should provide detailed instructions on how to get started with the
     python manage.py runserver
   ```
 
+### Supabase Access
+PLease contact tankhanhdao@gmail.com to have the access to the database on Supabase
+
+
 ### License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
